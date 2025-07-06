@@ -355,39 +355,52 @@
             }
         }
 
-        function loadData(data) {
-            isUpdating = true; // Previene il salvataggio durante il caricamento
-            
-            // Carica attività
-            if (data.activities) {
-                Object.entries(data.activities).forEach(([day, activity]) => {
-                    const input = document.querySelector(`.day-card[data-day="${day}"] .activity-input`);
-                    if (input) input.value = activity;
-                });
-            }
+function loadData(data) {
+    // Flag per prevenire il salvataggio automatico mentre si caricano i dati
+    isUpdating = true;
+    console.log("Caricamento dati da Firebase...", data); // Messaggio di debug
 
-            // Carica alloggi
-            if (data.accommodations) {
-                Object.entries(data.accommodations).forEach(([day, accommodation]) => {
-                    const card = document.querySelector(`.day-card[data-day="${day}"]`);
-                    if (card) {
-                        const nameInput = card.querySelector('.bnb-name-input');
-                        const urlInput = card.querySelector('.bnb-input');
-                        if (nameInput) nameInput.value = accommodation.name || '';
-                        if (urlInput) urlInput.value = accommodation.url || '';
-                    }
-                });
+    // Carica attività
+    if (data.activities) {
+        Object.entries(data.activities).forEach(([day, activity]) => {
+            const input = document.querySelector(`.day-card[data-day="${day}"] .activity-input`);
+            if (input && input.value !== activity) {
+                input.value = activity;
             }
-            
-            // Aggiorna data ultima modifica
-            if (data.lastUpdated && data.lastUpdated.toDate) {
-                lastUpdateEl.textContent = data.lastUpdated.toDate().toLocaleString('it-IT');
-            } else {
-                lastUpdateEl.textContent = "N/A";
+        });
+    }
+
+    // Carica alloggi (punto cruciale)
+    if (data.accommodations) {
+        Object.entries(data.accommodations).forEach(([day, accommodation]) => {
+            const card = document.querySelector(`.day-card[data-day="${day}"]`);
+            if (card) {
+                const nameInput = card.querySelector('.bnb-name-input');
+                const urlInput = card.querySelector('.bnb-input');
+                
+                // Controlla e popola il nome
+                if (nameInput && nameInput.value !== accommodation.name) {
+                    nameInput.value = accommodation.name || '';
+                    console.log(`Caricato per ${day}: nome='${nameInput.value}'`);
+                }
+                
+                // Controlla e popola l'URL
+                if (urlInput && urlInput.value !== accommodation.url) {
+                    urlInput.value = accommodation.url || '';
+                    console.log(`Caricato per ${day}: url='${urlInput.value}'`);
+                }
             }
-            
-            isUpdating = false; // Riabilita il salvataggio
-        }
+        });
+    }
+    
+    // Aggiorna data ultima modifica
+    if (data.lastUpdated && data.lastUpdated.toDate) {
+        lastUpdateEl.textContent = data.lastUpdated.toDate().toLocaleString('it-IT');
+    }
+
+    // Riabilita il salvataggio dopo aver terminato il caricamento
+    setTimeout(() => { isUpdating = false; }, 100);
+}
 
         function debouncedSave() {
             clearTimeout(saveTimeout);
