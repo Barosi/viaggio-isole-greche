@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaggio Isole Greche 2024 - Mykonos, Paros, Naxos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .budget-section {
+            padding: 30px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .budget-title {
+            font-size: 1.5em;
+            color: #8b4513;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .budget-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+
+        .budget-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .budget-item h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .budget-item .cost {
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .total-cost {
+            background: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+        }
+
+        .itinerary-section {
+            padding: 30px;
+        }
+
+        .itinerary-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            border-color: #4facfe;
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-date {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .day-location {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .day-content {
+            padding: 25px;
+        }
+
+        .activity-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .activity-input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .bnb-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .bnb-title {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .bnb-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .bnb-link {
+            display: block;
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .bnb-link:hover {
+            text-decoration: underline;
+        }
+
+        .share-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            background: #4facfe;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .share-btn:hover {
+            background: #369bff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .save-btn {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .islands-nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .island-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .island-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .island-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .budget-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .day-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇬🇷 Viaggio Isole Greche 2024</h1>
+            <p>Mykonos • Paros • Naxos</p>
+        </div>
+
+        <div class="islands-nav">
+            <button class="island-btn active" onclick="showIsland('all')">Tutti i Giorni</button>
+            <button class="island-btn" onclick="showIsland('mykonos')">🏝️ Mykonos</button>
+            <button class="island-btn" onclick="showIsland('paros')">🌊 Paros</button>
+            <button class="island-btn" onclick="showIsland('naxos')">🏖️ Naxos</button>
+        </div>
+
+        <div class="budget-section">
+            <h2 class="budget-title">💰 Budget Stimato</h2>
+            <div class="budget-grid">
+                <div class="budget-item">
+                    <h3>✈️ Volo A/R</h3>
+                    <div class="cost">€400,00</div>
+                    <small>Italia - Mykonos</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🏨 Hotel Mykonos</h3>
+                    <div class="cost">€269,00</div>
+                    <small>3 notti (Chora)</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🚢 Traghetto My-Pa</h3>
+                    <div class="cost">€52,00</div>
+                    <small>Mykonos - Paros</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🏨 Hotel Paros</h3>
+                    <div class="cost">€140,00</div>
+                    <small>2 notti (Parikia)</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🚢 Traghetto Pa-Na</h3>
+                    <div class="cost">€21,00</div>
+                    <small>Paros - Naxos</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🏨 Hotel Naxos</h3>
+                    <div class="cost">€145,33</div>
+                    <small>2 notti (Agios Prokopios/Agia Anna/Plaka)</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🚢 Traghetto Na-My</h3>
+                    <div class="cost">€36,00</div>
+                    <small>Naxos - Mykonos</small>
+                </div>
+                <div class="budget-item">
+                    <h3>🚕 Taxi & Extra</h3>
+                    <div class="cost">€100,00</div>
+                    <small>Trasporti locali</small>
+                </div>
+            </div>
+            <div class="total-cost">
+                💳 Totale Stimato: €1.163,33
+            </div>
+        </div>
+
+        <div class="itinerary-section">
+            <h2 class="itinerary-title">📅 Itinerario Dettagliato</h2>
+            
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 2 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Arrivo e check-in, serata in centro - Relax e aperitivo</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Mykonos</div>
+                        <input type="url" class="bnb-input" placeholder="Inserisci link BnB o hotel..." data-day="mykonos">
+                        <div class="bnb-link-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 3 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Paradise Beach, cena a Little Venice - Musica dal vivo</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 4 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Escursione in barca, serata Scorpios - Party</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="paros">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 5 Agosto</div>
+                    <div class="day-location">Paros</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Traghetto e giro centro storico - Check-in hotel</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Paros</div>
+                        <input type="url" class="bnb-input" placeholder="Inserisci link BnB o hotel..." data-day="paros">
+                        <div class="bnb-link-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="paros">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 6 Agosto</div>
+                    <div class="day-location">Paros</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Kolymbithres, cena a Naoussa - Relax e passeggiata</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="naxos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 7 Agosto</div>
+                    <div class="day-location">Naxos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Traghetto e visita Chora - Check-in e serata in città</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Naxos</div>
+                        <input type="url" class="bnb-input" placeholder="Inserisci link BnB o hotel..." data-day="naxos">
+                        <div class="bnb-link-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="naxos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 8 Agosto</div>
+                    <div class="day-location">Naxos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Plaka, giro in quad - Tramonto panoramico</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 9 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Rientro e volo per l'Italia - Check-out mattina</textarea>
+                </div>
+            </div>
+        </div>
+
+        <button class="save-btn" onclick="saveItinerary()">💾 Salva Modifiche</button>
+
+        <div class="share-section">
+            <h2 class="share-title">📱 Condividi il Viaggio</h2>
+            <div class="share-buttons">
+                <button class="share-btn" onclick="shareWhatsApp()">📱 WhatsApp</button>
+                <button class="share-btn" onclick="shareEmail()">📧 Email</button>
+                <button class="share-btn" onclick="copyLink()">🔗 Copia Link</button>
+                <button class="share-btn" onclick="exportPDF()">📄 Esporta PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dati del viaggio
+        let tripData = {
+            activities: {},
+            accommodations: {}
+        };
+
+        // Carica i dati salvati
+        function loadData() {
+            const saved = localStorage.getItem('greekIslandsTrip');
+            if (saved) {
+                tripData = JSON.parse(saved);
+                // Ripristina i dati nell'interfaccia
+                document.querySelectorAll('.activity-input').forEach((input, index) => {
+                    if (tripData.activities[index]) {
+                        input.value = tripData.activities[index];
+                    }
+                });
+                
+                document.querySelectorAll('.bnb-input').forEach(input => {
+                    const day = input.dataset.day;
+                    if (tripData.accommodations[day]) {
+                        input.value = tripData.accommodations[day];
+                        updateBnbLink(input);
+                    }
+                });
+            }
+        }
+
+        // Salva i dati
+        function saveItinerary() {
+            // Salva attività
+            document.querySelectorAll('.activity-input').forEach((input, index) => {
+                tripData.activities[index] = input.value;
+            });
+
+            // Salva alloggi
+            document.querySelectorAll('.bnb-input').forEach(input => {
+                const day = input.dataset.day;
+                tripData.accommodations[day] = input.value;
+            });
+
+            localStorage.setItem('greekIslandsTrip', JSON.stringify(tripData));
+            
+            // Notifica di salvataggio
+            const btn = document.querySelector('.save-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Salvato!';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#28a745';
+            }, 2000);
+        }
+
+        // Aggiorna link BnB
+        function updateBnbLink(input) {
+            const container = input.parentElement.querySelector('.bnb-link-container');
+            if (input.value && input.value.startsWith('http')) {
+                container.innerHTML = `<a href="${input.value}" target="_blank" class="bnb-link">🔗 Visualizza Alloggio</a>`;
+            } else {
+                container.innerHTML = '';
+            }
+        }
+
+        // Filtra per isola
+        function showIsland(island) {
+            const cards = document.querySelectorAll('.day-card');
+            const buttons = document.querySelectorAll('.island-btn');
+            
+            // Aggiorna pulsanti
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Mostra/nascondi card
+            if (island === 'all') {
+                cards.forEach(card => card.style.display = 'block');
+            } else {
+                cards.forEach(card => {
+                    if (card.dataset.island === island) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Condivisione WhatsApp
+        function shareWhatsApp() {
+            const text = `🇬🇷 Viaggio Isole Greche 2024!\n\n📍 Mykonos • Paros • Naxos\n📅 2-9 Agosto\n💰 Budget: €1.163,33\n\n🔗 Guarda l'itinerario completo: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        }
+
+        // Condivisione Email
+        function shareEmail() {
+            const subject = '🇬🇷 Viaggio Isole Greche 2024 - Itinerario';
+            const body = `Ciao!\n\nTi condivido l'itinerario del nostro viaggio nelle Isole Greche:\n\n📍 Destinazioni: Mykonos, Paros, Naxos\n📅 Date: 2-9 Agosto 2024\n💰 Budget stimato: €1.163,33\n\n🔗 Visualizza l'itinerario completo: ${window.location.href}\n\nCi sarà da divertirsi! 🏖️`;
+            window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+        }
+
+        // Copia link
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copiato!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Esporta PDF (simulato)
+        function exportPDF() {
+            alert('🚧 Funzione in sviluppo! Per ora puoi usare Ctrl+P per stampare la pagina.');
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            // Listener per input BnB
+            document.querySelectorAll('.bnb-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    updateBnbLink(this);
+                });
+            });
+            
+            // Auto-salvataggio ogni 30 secondi
+            setInterval(saveItinerary, 30000);
+        });
+
+        // Salva prima di chiudere la pagina
+        window.addEventListener('beforeunload', saveItinerary);
+    </script>
+</body>
+</html>
