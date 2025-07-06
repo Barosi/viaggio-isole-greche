@@ -318,14 +318,6 @@
             firebaseWorking = false;
         }
 
-        // NOMI CASUALI
-        function generateRandomName() {
-            const names = ['Marco', 'Giulia', 'Luca', 'Sofia', 'Alessandro', 'Francesca', 'Matteo', 'Elena', 'Davide', 'Chiara'];
-            const name = names[Math.floor(Math.random() * names.length)];
-            localStorage.setItem('userName', name);
-            return name;
-        }
-
         // AGGIORNA STATUS
         function updateStatus(message, type = '') {
             const status = document.getElementById('connectionStatus');
@@ -334,7 +326,6 @@
         }
         // VARIABILI GLOBALI PER TRACKING UTENTI REALI
         let saveTimeout = null;
-        let userName = localStorage.getItem('userName') || generateRandomName();
         let userIP = localStorage.getItem('userIP') || null;
         let lastUserCount = 1;
         let onlineUsers = new Map(); // Mappa IP -> {name, lastSeen, location}
@@ -396,7 +387,6 @@
                     
                     // Aggiorna il nostro timestamp
                     const userData = {
-                        name: userName,
                         lastSeen: currentTime,
                         location: onlineUsers.get(userIP)?.location || { city: 'Caricamento...', countryCode: 'XX' }
                     };
@@ -467,7 +457,7 @@
                 const currentUser = onlineUsers.get(userIP);
                 if (currentUser) {
                     const flag = getCountryFlag(currentUser.location?.countryCode || 'XX');
-                    userList.innerHTML += `<span class="user-badge" style="background: rgba(76, 175, 80, 0.3);" title="Tu - ${currentUser.location?.city || 'Posizione sconosciuta'}">${flag} Tu (${userName})</span>`;
+                    userList.innerHTML += `<span class="user-badge" style="background: rgba(76, 175, 80, 0.3);" title="Tu - ${currentUser.location?.city || 'Posizione sconosciuta'}">${flag} Tu</span>`;
                 }
             }
             
@@ -479,7 +469,7 @@
                     const timeSinceLastSeen = Math.floor((Date.now() - user.lastSeen) / 1000);
                     const statusIndicator = timeSinceLastSeen < 10 ? '🟢' : timeSinceLastSeen < 20 ? '🟡' : '🔴';
                     
-                    userList.innerHTML += `<span class="user-badge" title="${user.name} da ${user.location?.city || 'Posizione sconosciuta'} (${ipDisplay}) - ${timeSinceLastSeen}s fa">${flag} ${statusIndicator} ${user.name}</span>`;
+                    userList.innerHTML += `<span class="user-badge" title="${user.name} da ${user.location?.city || 'Posizione sconosciuta'} (${ipDisplay}) - ${timeSinceLastSeen}s fa">${flag} ${statusIndicator}</span>`;
                 }
             }
         }
@@ -510,7 +500,6 @@
                 
                 // Aggiungi questo utente alla lista
                 onlineUsers.set(userIP, {
-                    name: userName,
                     lastSeen: Date.now(),
                     location: location
                 });
@@ -543,7 +532,6 @@
             } catch (error) {
                 console.error('❌ Errore inizializzazione tracking:', error);
                 // Fallback alla versione simulata
-                updateOnlineUsersFallback();
             }
         }
 
@@ -642,7 +630,7 @@
                     try {
                         await db.collection('trips').doc('greek-islands-2025').set(data, { merge: true });
                         updateStatus('🌐 Salvato su Firebase');
-                        document.getElementById('lastUpdate').textContent = `${new Date().toLocaleString('it-IT')} da ${userName}`;
+                        document.getElementById('lastUpdate').textContent = `${new Date().toLocaleString('it-IT')}`;
                         console.log('✅ Salvato su Firebase');
                     } catch (error) {
                         console.error('❌ Errore Firebase, uso localStorage:', error);
@@ -658,7 +646,7 @@
             try {
                 localStorage.setItem('tripData', JSON.stringify(data));
                 updateStatus('💾 Salvato localmente');
-                document.getElementById('lastUpdate').textContent = `${new Date().toLocaleString('it-IT')} da ${userName}`;
+                document.getElementById('lastUpdate').textContent = `${new Date().toLocaleString('it-IT')}`;
                 console.log('💾 Salvato in localStorage');
             } catch (error) {
                 updateStatus('❌ Errore salvataggio', 'offline');
