@@ -70,20 +70,12 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(40, 167, 69, 0.9);
             color: white;
             padding: 10px 15px;
             border-radius: 20px;
             font-size: 0.9em;
             z-index: 1000;
-        }
-
-        .status-online {
-            background: rgba(40, 167, 69, 0.9);
-        }
-
-        .status-offline {
-            background: rgba(220, 53, 69, 0.9);
         }
 
         .budget-section {
@@ -167,6 +159,10 @@
             border-color: #4facfe;
         }
 
+        .day-card.hidden {
+            display: none;
+        }
+
         .day-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -225,16 +221,7 @@
             gap: 10px;
         }
 
-        .bnb-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-
-        .bnb-name-input {
+        .bnb-input, .bnb-name-input {
             width: 100%;
             padding: 10px;
             border: 2px solid #e0e0e0;
@@ -257,46 +244,6 @@
 
         .bnb-link:hover {
             background: #369bff;
-        }
-
-        .share-section {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 30px;
-            text-align: center;
-        }
-
-        .share-title {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            background: #4facfe;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .share-btn:hover {
-            background: #369bff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .islands-nav {
@@ -329,43 +276,40 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #666;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #4facfe;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .collaborators {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            margin: 20px;
-            border-radius: 10px;
+        .share-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
             text-align: center;
         }
 
-        .collaborator {
-            display: inline-block;
+        .share-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
             background: #4facfe;
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            margin: 5px;
-            font-size: 0.9em;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            background: #369bff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .last-updated {
@@ -393,21 +337,12 @@
     </style>
 </head>
 <body>
-    <div class="connection-status" id="connectionStatus">
-        🔄 Connessione in corso...
-    </div>
-
+    <div class="connection-status">🌐 Pronto</div>
+    
     <div class="container">
         <div class="header">
             <h1>🇬🇷 Viaggio Isole Greche 2024</h1>
             <p>Mykonos • Paros • Naxos</p>
-        </div>
-
-        <div class="collaborators">
-            <strong>👥 Collaboratori online:</strong>
-            <div id="collaboratorsList">
-                <div class="collaborator">Tu</div>
-            </div>
         </div>
 
         <div class="islands-nav">
@@ -468,114 +403,108 @@
 
         <div class="itinerary-section">
             <h2 class="itinerary-title">📅 Itinerario Collaborativo</h2>
-            <div class="loading" id="loadingIndicator">
-                <div class="spinner"></div>
-                <p>Caricamento dati condivisi...</p>
-            </div>
             
-            <div id="itineraryContent" style="display: none;">
-                <div class="day-card" data-island="mykonos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 2 Agosto</div>
-                        <div class="day-location">Mykonos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="0" placeholder="Descrivi le attività per questo giorno...">Arrivo e check-in, serata in centro - Relax e aperitivo</textarea>
-                        <div class="bnb-section">
-                            <div class="bnb-title">🏠 Alloggio Mykonos</div>
-                            <input type="text" class="bnb-name-input" data-day="mykonos-name" placeholder="Nome alloggio (es. Villa Vista Mare)">
-                            <input type="url" class="bnb-input" data-day="mykonos-url" placeholder="Link BnB o hotel...">
-                            <div class="bnb-link-container" id="mykonos-link"></div>
-                        </div>
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 2 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Arrivo e check-in, serata in centro - Relax e aperitivo</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Mykonos</div>
+                        <input type="text" class="bnb-name-input" placeholder="Nome alloggio (es. Villa Vista Mare)">
+                        <input type="url" class="bnb-input" placeholder="Link BnB o hotel...">
+                        <div class="bnb-link-container" id="mykonos-link"></div>
                     </div>
                 </div>
+            </div>
 
-                <div class="day-card" data-island="mykonos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 3 Agosto</div>
-                        <div class="day-location">Mykonos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="1" placeholder="Descrivi le attività per questo giorno...">Spiaggia Paradise Beach, cena a Little Venice - Musica dal vivo</textarea>
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 3 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Paradise Beach, cena a Little Venice - Musica dal vivo</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 4 Agosto</div>
+                    <div class="day-location">Mykonos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Escursione in barca, serata Scorpios - Party</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="paros">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 5 Agosto</div>
+                    <div class="day-location">Paros</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Traghetto e giro centro storico - Check-in hotel</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Paros</div>
+                        <input type="text" class="bnb-name-input" placeholder="Nome alloggio (es. Hotel Paros Bay)">
+                        <input type="url" class="bnb-input" placeholder="Link BnB o hotel...">
+                        <div class="bnb-link-container" id="paros-link"></div>
                     </div>
                 </div>
+            </div>
 
-                <div class="day-card" data-island="mykonos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 4 Agosto</div>
-                        <div class="day-location">Mykonos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="2" placeholder="Descrivi le attività per questo giorno...">Escursione in barca, serata Scorpios - Party</textarea>
+            <div class="day-card" data-island="paros">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 6 Agosto</div>
+                    <div class="day-location">Paros</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Kolymbithres, cena a Naoussa - Relax e passeggiata</textarea>
+                </div>
+            </div>
+
+            <div class="day-card" data-island="naxos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 7 Agosto</div>
+                    <div class="day-location">Naxos</div>
+                </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Traghetto e visita Chora - Check-in e serata in città</textarea>
+                    <div class="bnb-section">
+                        <div class="bnb-title">🏠 Alloggio Naxos</div>
+                        <input type="text" class="bnb-name-input" placeholder="Nome alloggio (es. Appartamento Plaka Beach)">
+                        <input type="url" class="bnb-input" placeholder="Link BnB o hotel...">
+                        <div class="bnb-link-container" id="naxos-link"></div>
                     </div>
                 </div>
+            </div>
 
-                <div class="day-card" data-island="paros">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 5 Agosto</div>
-                        <div class="day-location">Paros</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="3" placeholder="Descrivi le attività per questo giorno...">Traghetto e giro centro storico - Check-in hotel</textarea>
-                        <div class="bnb-section">
-                            <div class="bnb-title">🏠 Alloggio Paros</div>
-                            <input type="text" class="bnb-name-input" data-day="paros-name" placeholder="Nome alloggio (es. Hotel Paros Bay)">
-                            <input type="url" class="bnb-input" data-day="paros-url" placeholder="Link BnB o hotel...">
-                            <div class="bnb-link-container" id="paros-link"></div>
-                        </div>
-                    </div>
+            <div class="day-card" data-island="naxos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 8 Agosto</div>
+                    <div class="day-location">Naxos</div>
                 </div>
-
-                <div class="day-card" data-island="paros">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 6 Agosto</div>
-                        <div class="day-location">Paros</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="4" placeholder="Descrivi le attività per questo giorno...">Spiaggia Kolymbithres, cena a Naoussa - Relax e passeggiata</textarea>
-                    </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Spiaggia Plaka, giro in quad - Tramonto panoramico</textarea>
                 </div>
+            </div>
 
-                <div class="day-card" data-island="naxos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 7 Agosto</div>
-                        <div class="day-location">Naxos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="5" placeholder="Descrivi le attività per questo giorno...">Traghetto e visita Chora - Check-in e serata in città</textarea>
-                        <div class="bnb-section">
-                            <div class="bnb-title">🏠 Alloggio Naxos</div>
-                            <input type="text" class="bnb-name-input" data-day="naxos-name" placeholder="Nome alloggio (es. Appartamento Plaka Beach)">
-                            <input type="url" class="bnb-input" data-day="naxos-url" placeholder="Link BnB o hotel...">
-                            <div class="bnb-link-container" id="naxos-link"></div>
-                        </div>
-                    </div>
+            <div class="day-card" data-island="mykonos">
+                <div class="day-header">
+                    <div class="day-date">🗓️ 9 Agosto</div>
+                    <div class="day-location">Mykonos</div>
                 </div>
-
-                <div class="day-card" data-island="naxos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 8 Agosto</div>
-                        <div class="day-location">Naxos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="6" placeholder="Descrivi le attività per questo giorno...">Spiaggia Plaka, giro in quad - Tramonto panoramico</textarea>
-                    </div>
-                </div>
-
-                <div class="day-card" data-island="mykonos">
-                    <div class="day-header">
-                        <div class="day-date">🗓️ 9 Agosto</div>
-                        <div class="day-location">Mykonos</div>
-                    </div>
-                    <div class="day-content">
-                        <textarea class="activity-input" data-day="7" placeholder="Descrivi le attività per questo giorno...">Rientro e volo per l'Italia - Check-out mattina</textarea>
-                    </div>
+                <div class="day-content">
+                    <textarea class="activity-input" placeholder="Descrivi le attività per questo giorno...">Rientro e volo per l'Italia - Check-out mattina</textarea>
                 </div>
             </div>
         </div>
 
-        <div class="last-updated" id="lastUpdated">
-            Ultimo aggiornamento: Mai
+        <div class="last-updated">
+            Ultimo aggiornamento: <span id="lastUpdate">Appena creato</span>
         </div>
 
         <div class="share-section">
@@ -589,216 +518,118 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
-
     <script>
-        // Configurazione Firebase (sostituisci con la tua configurazione)
-    const firebaseConfig = {
-  apiKey: "AIzaSyAnhLc7idYRpHqyTY4EE3i8HlV12SsaUT0",
-  authDomain: "viaggiogrecia2024.firebaseapp.com",
-  projectId: "viaggiogrecia2024",
-  storageBucket: "viaggiogrecia2024.firebasestorage.app",
-  messagingSenderId: "953454824201",
-  appId: "1:953454824201:web:4f70e39ad68654892561d8",
-  measurementId: "G-4466XC3VTC"
-};
-
-        // Inizializza Firebase
-        let db;
-        let tripId = 'greek-islands-2024';
-        let isConnected = false;
-
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-            isConnected = true;
-            updateConnectionStatus('online');
-            console.log('Firebase connesso');
-        } catch (error) {
-            console.warn('Firebase non disponibile, usando storage locale:', error);
-            isConnected = false;
-            updateConnectionStatus('offline');
-        }
-
-        // Dati del viaggio
+        // Dati del viaggio memorizzati localmente
         let tripData = {
             activities: {},
             accommodations: {},
-            lastUpdated: new Date().toISOString(),
-            collaborators: ['Tu']
+            lastUpdated: new Date().toISOString()
         };
 
-        // Aggiorna stato connessione
-        function updateConnectionStatus(status) {
-            const statusEl = document.getElementById('connectionStatus');
-            if (status === 'online') {
-                statusEl.textContent = '🌐 Online - Sincronizzato';
-                statusEl.className = 'connection-status status-online';
-            } else {
-                statusEl.textContent = '📱 Offline - Solo locale';
-                statusEl.className = 'connection-status status-offline';
-            }
-        }
-
-        // Carica i dati
-        async function loadData() {
-            try {
-                if (isConnected) {
-                    const doc = await db.collection('trips').doc(tripId).get();
-                    if (doc.exists) {
-                        tripData = doc.data();
-                        console.log('Dati caricati da Firebase');
-                    } else {
-                        // Crea documento se non esiste
-                        await saveToFirebase();
-                    }
-                } else {
-                    // Fallback a localStorage
-                    const saved = localStorage.getItem('greekIslandsTrip');
-                    if (saved) {
-                        tripData = JSON.parse(saved);
-                    }
-                }
-                
-                // Aggiorna interfaccia
-                updateUI();
-                
-            } catch (error) {
-                console.error('Errore caricamento dati:', error);
-                updateConnectionStatus('offline');
-            }
-            
-            // Nascondi loading
-            document.getElementById('loadingIndicator').style.display = 'none';
-            document.getElementById('itineraryContent').style.display = 'block';
-        }
-
-        // Aggiorna interfaccia
-        function updateUI() {
-            // Aggiorna attività
-            document.querySelectorAll('.activity-input').forEach(input => {
-                const day = input.dataset.day;
-                if (tripData.activities[day]) {
-                    input.value = tripData.activities[day];
-                }
-            });
-
-            // Aggiorna alloggi
-            document.querySelectorAll('.bnb-input, .bnb-name-input').forEach(input => {
-                const day = input.dataset.day;
-                if (tripData.accommodations[day]) {
-                    input.value = tripData.accommodations[day];
-                }
-            });
-
-            // Aggiorna link alloggi
-            updateAccommodationLinks();
-
-            // Aggiorna timestamp
-            if (tripData.lastUpdated) {
-                const date = new Date(tripData.lastUpdated);
-                document.getElementById('lastUpdated').textContent = 
-                    `Ultimo aggiornamento: ${date.toLocaleDateString('it-IT')} ${date.toLocaleTimeString('it-IT')}`;
-            }
-
-            // Aggiorna collaboratori
-            updateCollaborators();
-        }
-
-        // Aggiorna link alloggi
-        function updateAccommodationLinks() {
-            ['mykonos', 'paros', 'naxos'].forEach(island => {
-                const nameKey = `${island}-name`;
-                const urlKey = `${island}-url`;
-                const name = tripData.accommodations[nameKey];
-                const url = tripData.accommodations[urlKey];
-                
-                const linkContainer = document.getElementById(`${island}-link`);
-                if (name && url && url.startsWith('http')) {
-                    linkContainer.innerHTML = `<a href="${url}" target="_blank" class="bnb-link">🔗 ${name}</a>`;
-                } else {
-                    linkContainer.innerHTML = '';
-                }
-            });
-        }
-
-        // Aggiorna collaboratori
-        function updateCollaborators() {
-            const collaboratorsList = document.getElementById('collaboratorsList');
-            if (tripData.collaborators && tripData.collaborators.length > 0) {
-                collaboratorsList.innerHTML = tripData.collaborators
-                    .map(name => `<div class="collaborator">${name}</div>`)
-                    .join('');
-            }
-        }
-
-        // Salva su Firebase
-        async function saveToFirebase() {
-            if (!isConnected) {
-                // Salva in locale se Firebase non disponibile
-                localStorage.setItem('greekIslandsTrip', JSON.stringify(tripData));
-                return;
-            }
-
-            try {
-                tripData.lastUpdated = new Date().toISOString();
-                await db.collection('trips').doc(tripId).set(tripData);
-                console.log('Dati salvati su Firebase');
-                updateUI();
-            } catch (error) {
-                console.error('Errore salvataggio:', error);
-                // Fallback a localStorage
-                localStorage.setItem('greekIslandsTrip', JSON.stringify(tripData));
-            }
-        }
-
-        // Salva modifiche
-        function saveChanges() {
-            // Salva attività
-            document.querySelectorAll('.activity-input').forEach(input => {
-                const day = input.dataset.day;
-                tripData.activities[day] = input.value;
-            });
-
-            // Salva alloggi
-            document.querySelectorAll('.bnb-input, .bnb-name-input').forEach(input => {
-                const day = input.dataset.day;
-                tripData.accommodations[day] = input.value;
-            });
-
-            // Salva nel database
-            saveToFirebase();
-        }
-
-        // Listener in tempo reale
-        function setupRealtimeListener() {
-            if (!isConnected) return;
-
-            try {
-                db.collection('trips').doc(tripId).onSnapshot(doc => {
-                    if (doc.exists) {
-                        const newData = doc.data();
-                        if (newData.lastUpdated !== tripData.lastUpdated) {
-                            tripData = newData;
-                            updateUI();
-                            console.log('Dati aggiornati in tempo reale');
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Errore listener:', error);
-            }
-        }
-
-        // Filtra per isola
+        // Funzione per mostrare/nascondere isole
         function showIsland(island) {
             const cards = document.querySelectorAll('.day-card');
             const buttons = document.querySelectorAll('.island-btn');
             
+            // Aggiorna bottoni
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            if (island === 'all') {
-                cards.forEach(card => card.style.display = 'block');
+            // Mostra/nascondi cards
+            cards.forEach(card => {
+                if (island === 'all') {
+                    card.classList.remove('hidden');
+                } else {
+                    if (card.dataset.island === island) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // Funzione per aggiornare i link degli alloggi
+        function updateAccommodationLink(island) {
+            const nameInput = document.querySelector(`[data-island="${island}"] .bnb-name-input`);
+            const urlInput = document.querySelector(`[data-island="${island}"] .bnb-input`);
+            const linkContainer = document.getElementById(`${island}-link`);
+            
+            if (nameInput && urlInput && linkContainer) {
+                const name = nameInput.value.trim();
+                const url = urlInput.value.trim();
+                
+                if (name && url) {
+                    linkContainer.innerHTML = `
+                        <a href="${url}" target="_blank" class="bnb-link">
+                            🏠 ${name}
+                        </a>
+                    `;
+                } else {
+                    linkContainer.innerHTML = '';
+                }
+            }
+        }
+
+        // Funzioni di condivisione
+        function shareWhatsApp() {
+            const text = `🇬🇷 Viaggio Isole Greche 2024 - Mykonos, Paros, Naxos\n\nBudget stimato: €1.163,33\n\nVuoi vedere tutti i dettagli? ${window.location.href}`;
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        function shareEmail() {
+            const subject = "Viaggio Isole Greche 2024";
+            const body = `Ciao! Ho creato un itinerario per il nostro viaggio alle isole greche. Puoi vederlo qui: ${window.location.href}`;
+            const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(url);
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copiato negli appunti!');
+            }).catch(() => {
+                alert('Impossibile copiare il link');
+            });
+        }
+
+        function exportData() {
+            const data = {
+                title: "Viaggio Isole Greche 2024",
+                budget: "€1.163,33",
+                activities: Array.from(document.querySelectorAll('.activity-input')).map(input => input.value),
+                accommodations: Array.from(document.querySelectorAll('.bnb-name-input')).map(input => input.value),
+                lastUpdated: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'viaggio-grecia-2024.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners per gli input
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listener per i campi attività
+            document.querySelectorAll('.activity-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+                });
+            });
+
+            // Listener per i campi alloggi
+            document.querySelectorAll('.bnb-name-input, .bnb-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const card = this.closest('.day-card');
+                    const island = card.dataset.island;
+                    updateAccommodationLink(island);
+                    document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
